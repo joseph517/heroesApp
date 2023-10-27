@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environments } from 'src/environments/environments';
 import { Hero } from '../interfaces/hero.interface';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class HeoresService {
@@ -24,6 +24,24 @@ export class HeoresService {
     return this.http.get<Hero[]>(`${this.baseUrl}/heroes?q=${query}&_limit=6`)
   }
 
+  addHero(hero: Hero):Observable<Hero>{
+
+    return this.http.post<Hero>( `${this.baseUrl}/heroes`, hero)
+
+  }
+
+  updateHero(hero: Hero):Observable<Hero>{
+    if (!hero.id) throw Error('Hero id is requiered')
+    return this.http.patch<Hero>(`${this.baseUrl}/heroes/${hero.id}`, hero)
+  }
+
+  deleteHeroById(id: string):Observable<Boolean>{
+    return this.http.delete(`${this.baseUrl}/heroes/${id}`)
+      .pipe(
+        catchError(err => of(false)),
+        map(res => true)
+      )
+  }
 
 
 
