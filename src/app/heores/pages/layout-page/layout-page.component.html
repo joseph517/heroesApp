@@ -22,15 +22,18 @@
   </mat-sidenav>
 
   <mat-toolbar color="primary">
+
     <button mat-icon-button (click)="sidenav.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
+
     <span class="spacer"></span>
-    <button mat-button>Logout</button>
+    <span>{{userEmail?.email}}</span>
+
+    <button (click)="onLogOut()" mat-button>Logout</button>
   </mat-toolbar>
 
   <div class="container p-2">
-
     <router-outlet></router-outlet>
   </div>
 </mat-sidenav-container>
